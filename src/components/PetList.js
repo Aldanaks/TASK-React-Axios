@@ -3,6 +3,7 @@ import React, { useState, useSyncExternalStore } from "react";
 import PetItem from "./PetItem";
 import Modal from "./Modal";
 import axios from "axios";
+import { getAllPets } from "../api/pets";
 
 const PetList = () => {
   const [query, setQuery] = useState("");
@@ -15,10 +16,8 @@ const PetList = () => {
     .map((pet) => <PetItem pet={pet} key={pet.id} />);
 
   const fetchPets = async () => {
-    const response = await axios.get(
-      "https://pets-react-query-backend.eapi.joincoded.com/pets"
-    );
-    setPets(response.data);
+    const response = await getAllPets();
+    setPets(response);
   };
 
   return (
