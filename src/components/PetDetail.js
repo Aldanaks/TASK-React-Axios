@@ -1,17 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import petsData from "../petsData";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import { getOnePet } from "../api/pets";
+import { useQuery } from "@tanstack/react-query";
 
 const PetDetail = () => {
   const { petId } = useParams();
-  const pet = petsData.find((pet) => {
-    return pet.id == petId;
+
+  const { data: pet } = useQuery({
+    queryKey: ["getOne", petId],
+    queryFn: () => getOnePet(petId),
   });
 
-  if (!pet) {
-    return <Link to="/"> Pet not found! Go to Home</Link>;
-  }
   return (
     <div className="bg-[#F9E3BE] w-screen h-[100vh] flex justify-center items-center">
       <div className="border border-black rounded-md w-[70%] h-[70%] overflow-hidden flex flex-col md:flex-row p-5">
